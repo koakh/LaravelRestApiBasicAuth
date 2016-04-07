@@ -18,3 +18,14 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+//Route::group(['prefix' => '/api/v1'], function()
+Route::group(['prefix' => '/api/v1','middleware'=>'auth.basic'], function()
+{
+  Route::resource('users', 'UsersController' );
+});
+
+Route::get('/faker', [
+  'as' => 'faker',
+  'uses' => 'FakerController@index'
+]);
