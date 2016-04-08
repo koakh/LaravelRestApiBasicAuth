@@ -20,7 +20,8 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 //Route::group(['prefix' => '/api/v1'], function()
-Route::group(['prefix' => '/api/v1','middleware'=>'auth.basic'], function()
+//Route::group(['prefix' => '/api/v1','middleware'=>'auth.basic'], function()
+Route::group(['prefix' => '/api/v1','middleware'=>'auth:api'], function()
 {
   Route::resource('users', 'UsersController' );
 });

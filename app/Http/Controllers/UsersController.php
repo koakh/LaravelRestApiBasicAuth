@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
   public function index($id = null) {
+
+    //To get the authenticated user for this API request,
+    $user = Auth::guard('api')->user();
 
     if ($id == null) {
       //Fields are optinal, this way we show only desired fields
@@ -19,13 +22,10 @@ class UsersController extends Controller
     }
     return response()->json(array(
       'error' => false,
+      'user' => $user,
       'program' => $users,
       'status_code' => 200
-    ));    
-    
-    
-    
-    
+    ));
   }
 
   public function store(Request $request) {
@@ -52,4 +52,3 @@ class UsersController extends Controller
     return 'UsersController@edit';
   }
 }
-

@@ -21,6 +21,7 @@ class FakerController extends Controller
     $user->username = 'admin';
     $user->password_plain = 'fakepass';
     $user->password = Hash::make($user->password_plain);
+    $user->api_token = str_random(60);
     $user->save();
 
     for ($i = 0; $i < $limit; $i++) {
