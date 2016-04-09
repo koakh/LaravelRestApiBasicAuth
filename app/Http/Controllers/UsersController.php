@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
-  public function index($id = null) {
-
+  public function index($id = null)
+  {
     //To get the authenticated user for this API request,
     $user = Auth::guard('api')->user();
 
@@ -28,27 +28,93 @@ class UsersController extends Controller
     ));
   }
 
-  public function store(Request $request) {
-    return 'UsersController@store';
+  public function store(Request $request)
+  {
+//    $validator = Validator::make(Input::all(), [
+//      'name' => 'required|max:255',
+//      'email' => 'required|email|max:255|unique:users',
+//      'username' => 'required|max:38|unique:users',
+//      'password' => 'required|min:6|confirmed',
+//    ]);
+
+//    $this->validate($request, [
+//      'name' => 'required|max:255',
+//      'email' => 'required|email|max:255|unique:users',
+//      'username' => 'required|max:38|unique:users',
+//      'password' => 'required|min:6|confirmed',
+//    ]);
+
+//return phpinfo();
+
+    $input = $request->all();
+
+    //User::create($input);
+
+    $user = User::create([
+      'name' => $input['name'],
+      'email' => $input['email'],
+      'username' => $input['username'],
+      'password_plain' => $input['password_plain'],
+      'password' => bcrypt($input['password_plain']),
+      'api_token' => str_random(60),
+    ]);
+    $user->save();
+
+//    User::create([
+//      'name' => $request['name'],
+//      'email' => $request['email'],
+//      'username' => $request['username'],
+//      'password_plain' => $request['password'],
+//      'password' => bcrypt($request['password']),
+//      'api_token' => str_random(60),
+//    ]);
+
+
+    /*
+    User::create([
+      'name' => $data['name'],
+      'email' => $data['email'],
+      'username' => $data['username'],
+      'password_plain' => $data['password'],
+      'password' => bcrypt($data['password']),
+      'api_token' => str_random(60),
+    ]);
+    */
+
+//    return Response::make([
+//      'message' => 'Validation Failed',
+//      'errors' => $validator->errors()
+//    ]);
+
+    return response()->json(array(
+      'error' => false,
+      'user' => $user,
+      'status_code' => 200
+    ));
   }
 
-  public function create() {
+  public function create()
+  {
     return 'UsersController@create';
   }
 
-  public function update() {
+  public function update()
+  {
     return 'UsersController@update';
   }
 
-  public function show() {
+  public function show()
+  {
     return 'UsersController@show';
   }
 
-  public function destroy() {
+  public function destroy()
+  {
     return 'UsersController@destroy';
   }
 
-  public function edit() {
+  public function edit()
+  {
     return 'UsersController@edit';
   }
 }
