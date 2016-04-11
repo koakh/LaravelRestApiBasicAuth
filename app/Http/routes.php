@@ -30,3 +30,19 @@ Route::get('/faker', [
   'as' => 'faker',
   'uses' => 'FakerController@index'
 ]);
+
+//Test RestValidation
+Route::get('/validation',function(){
+  $fields = [
+    'title' => '3ss',
+  ];
+  $rules = [
+    'title' => 'required|max:2|alpha'
+  ];
+  $valid = Validator::make($fields, $rules);
+
+  return [
+    'message' => 'validation_failed',
+    'errors' => $valid->errors()
+  ];
+});

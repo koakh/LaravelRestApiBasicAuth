@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class UsersController extends Controller
 {
@@ -50,15 +51,38 @@ class UsersController extends Controller
 
     //User::create($input);
 
-    $user = User::create([
+    $fields = [
       'name' => $input['name'],
       'email' => $input['email'],
       'username' => $input['username'],
       'password_plain' => $input['password_plain'],
-      'password' => bcrypt($input['password_plain']),
-      'api_token' => str_random(60),
-    ]);
-    $user->save();
+    ];
+    $rules = [
+      'name' => 'required|max:20',
+      'email' => 'required|email|max:255|unique:users',
+      'username' => 'required|max:38|unique:users',
+      'password_plain' => 'required|min:6',
+    ];
+    $valid = Validator::make($fields, $rules);
+
+    if ($valid->errors()->count()) {
+      return [
+        'message' => 'validation_failed',
+        'errors' => $valid->errors()
+      ];
+    }
+    else {
+      $user = User::create([
+        'name' => $input['name'],
+        'email' => $input['email'],
+        'username' => $input['username'],
+        'password_plain' => $input['password_plain'],
+        'password' => bcrypt($input['password_plain']),
+        'api_token' => str_random(60),
+      ]);
+      $user->save();
+    }
+
 
 //    User::create([
 //      'name' => $request['name'],
