@@ -65,6 +65,8 @@ class UsersController extends Controller
     ];
     $valid = Validator::make($fields, $rules);
 
+    //if ($valid->invalid())
+
     if ($valid->errors()->count()) {
       return [
         'message' => 'validation_failed',
@@ -82,7 +84,6 @@ class UsersController extends Controller
       ]);
       $user->save();
     }
-
 
 //    User::create([
 //      'name' => $request['name'],
