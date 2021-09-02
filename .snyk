@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.21.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - laravel-elixir > gulp-less > less > request > hawk > boom > hoek:
+        patched: '2021-09-02T22:26:49.216Z'
+    - laravel-elixir > gulp-less > less > request > hawk > cryptiles > boom > hoek:
+        patched: '2021-09-02T22:26:49.216Z'
